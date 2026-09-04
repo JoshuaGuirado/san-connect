@@ -31,7 +31,7 @@ O e-mail `joshuafguirado@gmail.com` também é de teste e aparece no rodapé.
 |---|---|---|
 | Rodapé | CNPJ 58.412.706/0001-93 | fictício |
 | Quem somos | Cargos e bios das três sócias (Aichi, Shizuoka, Gunma) | fictício |
-| Depoimentos | Os 6 depoimentos e seus autores | fictício |
+| Depoimentos | Os 8 depoimentos e seus autores | **reais** (enviados pela San Connect) |
 | FAQ | Taxa de R$ 2.400 em duas parcelas | fictício |
 | FAQ | Prazo de 4 a 8 meses | fictício |
 | FAQ | Faixa salarial ¥1.100–¥1.500/h | fictício |
@@ -111,7 +111,7 @@ o texto num `<span>` próprio.
 
 **Mapa-múndi:** os 4.934 pontos dos continentes foram gerados aqui a
 partir da geometria real dos países e compactados num único `path`.
-As rotas partem de Maringá para Aichi, Gunma, Shizuoka e Tóquio.
+As rotas partem de Maringá para Aichi, Gunma e Shizuoka.
 
 **Medição:** nada do Google ou da Meta é carregado enquanto os IDs
 estiverem vazios. Já estão ligadas duas conversões — clique no WhatsApp
