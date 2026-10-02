@@ -1352,9 +1352,9 @@ const CONFIG = {
   // Medição — preencher quando tiver as contas. Vazio = não carrega nada.
   ga4: '',          // ex.: 'G-XXXXXXXXXX'
   metaPixel: '',    // ex.: '1234567890123456'
-  // Opcional: endpoint de formulário (Formspree, Basin, etc.).
-  // Deixando vazio, o formulário envia direto pelo WhatsApp com as respostas preenchidas.
-  endpoint: ''
+  // Cópia de cada lead por e-mail (via FormSubmit). O WhatsApp abre do mesmo jeito.
+  // Deixando vazio, o formulário só envia pelo WhatsApp.
+  endpoint: 'https://formsubmit.co/ajax/contato@sanconnect.com.br'
 };
 
 /* medição: só carrega se o ID estiver preenchido no CONFIG */
@@ -1882,17 +1882,32 @@ document.getElementById('formLead').addEventListener('submit', async (e)=>{
     `Quer embarcar: ${d.prazo}` +
     (ORIGEM ? `\n\n(origem: ${ORIGEM})` : '');
 
+  // abre o WhatsApp primeiro, ainda dentro do clique, para o navegador não bloquear a janela
+  window.open(linkZap(resumo, 'formulario'), '_blank', 'noopener');
+
   if(CONFIG.endpoint){
     btn.textContent = 'Enviando...'; btn.disabled = true;
     try{
       await fetch(CONFIG.endpoint,{
-        method:'POST', headers:{'Content-Type':'application/json','Accept':'application/json'},
-        body: JSON.stringify({...d, origem: ORIGEM})
+        method:'POST', keepalive:true,
+        headers:{'Content-Type':'application/json','Accept':'application/json'},
+        body: JSON.stringify({
+          _subject: `Novo lead pelo site: ${d.nome}`,
+          _template: 'table',
+          _captcha: 'false',
+          'Nome': d.nome,
+          'WhatsApp': d.whats,
+          'Idade': d.idade,
+          'Descendência': d.desc,
+          'Situação': d.situacao,
+          'Quer embarcar': d.prazo,
+          'Origem': ORIGEM || 'direto',
+          'Enviado em': new Date().toLocaleString('pt-BR',{timeZone:'America/Sao_Paulo'})
+        })
       });
-    }catch(err){ console.error('Falha ao enviar para o endpoint:', err); }
+    }catch(err){ console.error('Falha ao enviar o lead por e-mail:', err); }
     btn.textContent = textoOriginal; btn.disabled = false;
   }
-  window.open(linkZap(resumo, 'formulario'), '_blank', 'noopener');
 });
 </script>
 </body>
